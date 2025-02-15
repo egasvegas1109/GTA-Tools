@@ -35,7 +35,7 @@ fn addKamsToolsMenu_ = (
 		buttonText:"COL IO"
 		category:"KAMs_Scripts"
 		internalCategory:"KAMs_Scripts" (
-		try ( fileIn (scriptspath+"\\GTA_Tools\\GTA_COL_IO.mse") quiet:true   )
+		try ( fileIn (scriptspath+"\\GTA_Tools\\GTA_COL_IO.ms") quiet:true   )
 		catch messagebox "Please re-install my Collision IO script!" title:"Can't find Collision IO script"
 	)
 	macroScript kams_mapio
@@ -494,7 +494,7 @@ utility Kams_Scripts "Kam's GTA Scripts" (
 	)
 	
 	on script02 pressed do (   
-		try ( fileIn (scriptspath+"\\GTA_Tools\\GTA_COL_IO.mse") quiet:true   )
+		try ( fileIn (scriptspath+"\\GTA_Tools\\GTA_COL_IO.ms") quiet:true   )
 		catch messagebox "Please re-install my Collision IO script!" title:"Can't find Collision IO script"
 	)
 
