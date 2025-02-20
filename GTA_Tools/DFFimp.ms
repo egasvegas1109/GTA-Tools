@@ -707,7 +707,6 @@ fn rTexture f mtl texEx showdetail = (
 			df = mtl.colormap
 		) else (
 			mtl.diffusemap = bitmaptexture name:DTex filename:(DTex+texEx)
-			mtl.diffusemapAmount = 100
 			df =   mtl.diffusemap
 		)    
 		if TexFlag == 0x106 then df.filtering = 0
@@ -768,28 +767,18 @@ if (DebugMode == true)AND(texture_count == 0) then mtlflag[1] = true
     Gspc = readFloat f
     Gdif = readFloat f
 
-    default_color = color 150 150 150
-    specular_color = color 230 230 230
-
 	gtaMatFlag = true
 	if (mattype == 1) and (GTA_Mtl != undefined) then (
 		mtl = GTA_Mtl()
-		mtl.color = default_color
 		mtl.alpha = colA
 		mtl.amb = Gamb
 		mtl.spc = Gspc
 		mtl.dif = Gdif
-		mtl.specular = specular_color
 		if (DebugMode == true)AND(colA != 255)  then mtlflag[2] = true
 	) else (
 		gtaMatFlag = false
 		mtl = StandardMaterial()
-		mtl.glossiness = 10
-		mtl.soften = 0.1
-		mtl.Ambient = default_color
-		mtl.diffuse = default_color
 		--mtl.specular = color 255 255 255
-        mtl.specular = specular_color
 		mtl.opacity = (colA/255.0 * 100) as integer
 	)
 	for i = 1 to texture_count do (

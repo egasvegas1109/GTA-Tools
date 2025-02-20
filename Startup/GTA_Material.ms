@@ -42,7 +42,7 @@ plugin Material GTA_Mtl
 		
         
 		on color set val do delegate.diffuse_color = val 
-		on colormap set tex do ( delegate.diffuseMap = tex; delegate.diffuseMapAmount = 90; delegate.diffuseMapEnable = use_colormap )
+		on colormap set tex do ( delegate.diffuseMap = tex; delegate.diffuseMapEnable = use_colormap )
 		on use_colormap set state do delegate.diffuseMapEnable = state
 		--on spec_power set val do delegate.specular_level = val
 		on spec_power set val do delegate.glossiness = val
