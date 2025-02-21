@@ -1162,7 +1162,7 @@ fn checkObjL objArr = (
 											)--end if fo
 										)--end if Sname
 									) else (
-										fname = getsavefilename caption:"Export DFF File" types:"dff File (*.dff)|*.dff|"
+										fname = getsavefilename filename: $selection[1].name caption:"Export DFF File" types:"dff File (*.dff)|*.dff|"
 										if fname != undefined then (
 											f = fopen fname "wb"
 										)
