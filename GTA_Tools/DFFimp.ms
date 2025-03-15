@@ -441,7 +441,7 @@ fn rFrameList f Iscale showdetail = (
 		if Ext_length != 0 then (
             local Loop_end = (ftell f) + Ext_length
             while (ftell f) < Loop_end do (
-               local header = readLong f
+                local header = readLong f
                 string_length = readLong f
                 readLong f		--Version            
                 case header of (
@@ -449,7 +449,12 @@ fn rFrameList f Iscale showdetail = (
                         tmp = ""
 				        for j = 1 to string_length do (
     					    rbyte = readbyte f #unsigned
-	    				    tmp += Byte2Char rbyte 
+							if rbyte == 0 then (
+								tmp += ""
+								break -- Выходим из цикла
+							) else (
+								tmp += Byte2Char rbyte
+							)
 				        )
     				    frameAry[i].name = tmp
                     )
