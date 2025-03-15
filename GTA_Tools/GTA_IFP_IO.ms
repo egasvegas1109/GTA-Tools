@@ -42,7 +42,7 @@ rollout saifproll "Animation" (
 			f = fopen fname "rb"
 			if f == undefined then ( Messagebox "Can't open the file!" title:"I/O Error" )
 			else (
-					DFFin   f   1   ".tga"   0.1   true   false   (getFilenameFile fname)
+					DFFin   f   1   2   ".tga"   0.1   true   false   (getFilenameFile fname)
 			)--end if/else f
 		)
 		fclose f
