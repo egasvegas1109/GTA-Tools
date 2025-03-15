@@ -1,12 +1,55 @@
+
+function menuCallback =
+(
+	local menuMgr = callbacks.notificationParam()
+
+	local mainMenuBar = menuMgr.mainMenuBar
+
+	local newSubMenu = mainMenuBar.CreateSubMenu "8f3bf3c9-774f-48a4-a8b2-3855f8eb6736" "GTA Tools"
+
+	newSubMenu.CreateAction "17fdf993-4c44-4e81-9d68-4ed2fe947131" 647394 ("kams_dffio`KAMs_Scripts")
+
+	local col = newSubMenu.CreateSubMenu "5fb7757e-62e0-4cad-9e75-22ce84e4159a" "Collision"
+	local map = newSubMenu.CreateSubMenu "fb7838ad-30f1-40cb-93b9-3a3f7fd57887" "MAP"
+	local prelite = newSubMenu.CreateSubMenu "ee56a4a5-e7cb-4746-b0be-70c0a9d596a2" "Prelite"
+	local tools = newSubMenu.CreateSubMenu "0e3e6293-9cdf-43a1-a4c2-252d9fa145a8" "Tools"
+	local model_fixs = newSubMenu.CreateSubMenu "cbf3f657-b7ad-4be6-85ab-d1258f438a51" "Model FIXs"
+
+	col.CreateAction "c8e96b51-d5a6-4372-a58d-42057944e5b9" 647394 ("kams_colio`KAMs_Scripts")
+	col.CreateAction "5c17f39f-9890-4857-81fd-5573d78a8f2b" 647394 ("kams_cstImp`KAMs_Scripts")
+	col.CreateAction "f4f73856-6ebf-44e7-9e42-ae90d7fae628" 647394 ("kams_cstExp`KAMs_Scripts")
+
+	map.CreateAction "a837d485-bc0f-480c-b4a3-766e6c12fefe" 647394 ("kams_mapio`KAMs_Scripts")
+	map.CreateAction "a2ad3952-a77c-45e1-b9b7-0d03e10af85d" 647394 ("kams_emap`KAMs_Scripts")
+	map.CreateAction "44c521cb-c96f-4d28-945b-a718c8eff7bd" 647394 ("kams_t_explode`KAMs_Scripts")
+
+	prelite.CreateAction "de0a47f0-9f00-4017-88a0-859457fbcba2" 647394 ("kams_t_prelit`KAMs_Scripts")
+	prelite.CreateAction "c4ba17e3-34e4-404f-91d9-3b97af7e3086" 647394 ("kams_VCsT`KAMs_Scripts")
+
+	tools.CreateAction "4d29be92-5e68-4c4e-aa16-d0f79d6af5d3" 647394 ("kams_waterio`KAMs_Scripts")
+	tools.CreateAction "7a2b7134-c35e-4c98-bc4c-98c6f4ee3ea4" 647394 ("kams_t_VRH`KAMs_Scripts")
+	tools.CreateAction "1c398d60-1f9b-48ea-ab9c-6874a5ac617c" 647394 ("kams_BM`KAMs_Scripts")
+	tools.CreateAction "a8abe4c9-17f5-48e0-be2f-c6fb95c4a542" 647394 ("kams_valph`KAMs_Scripts")
+
+	model_fixs.CreateAction "12e1615c-45ae-44be-9751-ee363550fd24" 647394 ("kams_FixDif`KAMs_Scripts")
+	model_fixs.CreateAction "21fb6d45-a935-4884-9378-e0f5b97cfadc" 647394 ("kams_t_fixPivot`KAMs_Scripts")
+	model_fixs.CreateAction "23026062-384d-4fb4-aa32-947033e41d06" 647394 ("kams_t_alignPivot`KAMs_Scripts")
+)
+callbacks.removeScripts id:#menuDemo
+callbacks.addScript #cuiRegisterMenus menuCallback id:#menuDemo
+
+fn rebuildMenus =
+(
+	local iCuiMenuMgr = maxops.GetICuiMenuMgr()
+	iCuiMenuMgr.LoadConfiguration (iCuiMenuMgr.GetCurrentConfiguration())
+	local iQuadMenuMgr = maxops.GetICuiQuadMenuMgr()
+	iQuadMenuMgr.LoadConfiguration (iQuadMenuMgr.GetCurrentConfiguration())
+)
+rebuildMenus()
+
 try ( closeUtility Kams_Scripts) catch ()
 fn runEmt = ()
 fn addKamsToolsMenu_ = (
------------------- deleting previous menu
-	if ((menuMan.findMenu "GTA Tools") != undefined) then (
-		menuMan.unRegisterMenu (menuMan.findMenu "GTA Tools")
-		menuMan.updateMenuBar()
-	)
-	
 	macroScript kams_cstImp
 		buttonText:"Export to CST"
 		category:"KAMs_Scripts"
@@ -20,7 +63,7 @@ fn addKamsToolsMenu_ = (
 		category:"KAMs_Scripts"
 		internalCategory:"KAMs_Scripts" (
 		try ( 
-			fileIn (scriptspath+"\\GTA_Tools\\tools\\CST_Import.ms") quiet:true  
+			fileIn (scriptspath+"\\GTA_Tools\\tools\\CST_Import.ms") quiet:true
 		)catch messagebox "Please re-install my Map IO script!" title:"Can't find CST_Import.ms script"
 	)
 	
@@ -51,7 +94,7 @@ fn addKamsToolsMenu_ = (
 		category:"KAMs_Scripts"
 		internalCategory:"KAMs_Scripts" (
 		try ( 
-			fileIn (scriptspath+"\\GTA_Tools\\tools\\VC_smoothTool\\VC_smoothTool.ms") quiet:true  
+			fileIn (scriptspath+"\\GTA_Tools\\tools\\VC_smoothTool\\VC_smoothTool.ms") quiet:true
 		)catch messagebox "Please re-install my Map IO script!" title:"Can't find VC_smoothTool.ms script"
 	)
 	
@@ -60,7 +103,7 @@ fn addKamsToolsMenu_ = (
 		category:"KAMs_Scripts"
 		internalCategory:"KAMs_Scripts" (
 		try ( 
-			fileIn (scriptspath+"\\GTA_Tools\\tools\\GTA_Water_IO\\GTAWaterIO.ms") quiet:true  
+			fileIn (scriptspath+"\\GTA_Tools\\tools\\GTA_Water_IO\\GTAWaterIO.ms") quiet:true
 		)catch messagebox "Please re-install my Map IO script!" title:"Can't find GTAWaterIO.ms script"
 	)
 	
@@ -69,7 +112,7 @@ fn addKamsToolsMenu_ = (
 		category:"KAMs_Scripts"
 		internalCategory:"KAMs_Scripts" (
 		try ( 
-			fileIn (scriptspath+"\\GTA_Tools\\emt_startup.ms") quiet:true  
+			fileIn (scriptspath+"\\GTA_Tools\\emt_startup.ms") quiet:true
 			runEmt()
 		)catch messagebox "Please re-install my Map IO script!" title:"Can't find Map IO script"
 	)
@@ -79,7 +122,7 @@ fn addKamsToolsMenu_ = (
 		category:"KAMs_Scripts"
 		internalCategory:"KAMs_Scripts" (
 		try ( 
-			fileIn (scriptspath+"\\GTA_Tools\\tools\\BitmapsManager\\BitmapsManager.ms") quiet:true  
+			fileIn (scriptspath+"\\GTA_Tools\\tools\\BitmapsManager\\BitmapsManager.ms") quiet:true
 		)catch messagebox "Please re-install my Map IO script!" title:"Can't find BitmapsManager.ms script"
 	)
 	
@@ -88,7 +131,7 @@ fn addKamsToolsMenu_ = (
 		category:"KAMs_Scripts"
 		internalCategory:"KAMs_Scripts" (
 		try ( 
-			fileIn (scriptspath+"\\GTA_Tools\\tools\\setVAlphaOnBorder.ms") quiet:true  
+			fileIn (scriptspath+"\\GTA_Tools\\tools\\setVAlphaOnBorder.ms") quiet:true
 		)catch messagebox "Please re-install my Map IO script!" title:"Can't find setVAlphaOnBorder.ms script"
 	)
 	
@@ -98,7 +141,7 @@ fn addKamsToolsMenu_ = (
 		category:"KAMs_Scripts"
 		internalCategory:"KAMs_Scripts" (
 		try ( 
-			fileIn (scriptspath+"\\GTA_Tools\\tools\\FixDifColor.ms") quiet:true  
+			fileIn (scriptspath+"\\GTA_Tools\\tools\\FixDifColor.ms") quiet:true
 		)catch messagebox "Please re-install my Map IO script!" title:"Can't find FixDifColor.ms script"
 	)
 	
@@ -399,83 +442,6 @@ fn addKamsToolsMenu_ = (
 			fileIn (scriptspath+"\\GTA_Tools\\tools\\object_explode.ms") quiet:true
 		) catch messagebox "Error!" title:"Can't run script"
 	)
-	
-	try (
-		--------------------creating menu
-		mainMenuBar = menuMan.getMainMenuBar()
-		subMenu = menuMan.createMenu "GTA Tools"
-		testItem = menuMan.createActionItem ("kams_dffio") "KAMs_Scripts"
-		subMenu.addItem testItem -1	
-		
-		separator2 = menuMan.createSeparatorItem() -- LINE
-		subMenu.addItem separator2 -1
-		subSubMenu2 = menuMan.createMenu "Colision"
-		testSubItem2 = menuMan.createSubMenuItem "name" subSubMenu2
-		subMenu.addItem testSubItem2 -1
-		testItem = menuMan.createActionItem ("kams_colio") "KAMs_Scripts"
-		subSubMenu2.addItem testItem -1
-		testItem = menuMan.createActionItem ("kams_cstImp") "KAMs_Scripts"
-		subSubMenu2.addItem testItem -1
-		testItem = menuMan.createActionItem ("kams_cstExp") "KAMs_Scripts"
-		subSubMenu2.addItem testItem -1
-		
-		
-		separator1 = menuMan.createSeparatorItem() -- LINE
-		subMenu.addItem separator1 -1
-		subSubMenu1 = menuMan.createMenu "MAP"
-		testSubItem1 = menuMan.createSubMenuItem "name" subSubMenu1
-		subMenu.addItem testSubItem1 -1
-		testItem = menuMan.createActionItem ("kams_mapio") "KAMs_Scripts"
-		subSubMenu1.addItem testItem -1
-		testItem = menuMan.createActionItem ("kams_emap") "KAMs_Scripts"
-		subSubMenu1.addItem testItem -1
-		testItem = menuMan.createActionItem ("kams_t_explode") "KAMs_Scripts"
-		subSubMenu1.addItem testItem -1
-		
-		separator3 = menuMan.createSeparatorItem() -- LINE
-		subMenu.addItem separator3 -1
-		subSubMenu3 = menuMan.createMenu "Prelite"
-		testSubItem3 = menuMan.createSubMenuItem "name" subSubMenu3
-		subMenu.addItem testSubItem3 -1
-		testItem = menuMan.createActionItem ("kams_t_prelit") "KAMs_Scripts"
-		subSubMenu3.addItem testItem -1
-		testItem = menuMan.createActionItem ("kams_VCsT") "KAMs_Scripts"
-		subSubMenu3.addItem testItem -1
-		
-		
-		separator = menuMan.createSeparatorItem() -- LINE
-		subMenu.addItem separator -1
-		subSubMenu = menuMan.createMenu "Tools"
-		testSubItem = menuMan.createSubMenuItem "name" subSubMenu
-		subMenu.addItem testSubItem -1	
-		testItem = menuMan.createActionItem ("kams_waterio") "KAMs_Scripts"
-		subSubMenu.addItem testItem -1
-		testItem = menuMan.createActionItem ("kams_t_VRH") "KAMs_Scripts"
-		subSubMenu.addItem testItem -1
-		testItem = menuMan.createActionItem ("kams_BM") "KAMs_Scripts"
-		subSubMenu.addItem testItem -1
-		testItem = menuMan.createActionItem ("kams_valph") "KAMs_Scripts"
-		subSubMenu.addItem testItem -1
-		
-		separator4 = menuMan.createSeparatorItem() -- LINE
-		subMenu.addItem separator4 -1
-		subSubMenu4 = menuMan.createMenu "Model FIXs"
-		testSubItem4 = menuMan.createSubMenuItem "name" subSubMenu4
-		subMenu.addItem testSubItem4 -1
-		testItem = menuMan.createActionItem ("kams_FixDif") "KAMs_Scripts"
-		subSubMenu4.addItem testItem -1
-		testItem = menuMan.createActionItem ("kams_t_fixPivot") "KAMs_Scripts"
-		subSubMenu4.addItem testItem -1
-		testItem = menuMan.createActionItem ("kams_t_alignPivot") "KAMs_Scripts"
-		subSubMenu4.addItem testItem -1
-
-			
-		-----------------------updating menu
-		subMenuItem = menuMan.createSubMenuItem "Test Menu" subMenu
-		subMenuIndex = mainMenuBar.numItems() 0
-		mainMenuBar.addItem subMenuItem subMenuIndex
-		menuMan.updateMenuBar()
-	) catch messagebox ("Error creating GTA Tools menu!\n\nYou can run scripts manually from the folder:\n" + scriptspath+"\GTA_Tools\Tools\\") title: "Kam's GTA Scripts (GF)"
 )
 
 utility Kams_Scripts "Kam's GTA Scripts" (
