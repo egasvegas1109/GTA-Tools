@@ -13,6 +13,7 @@ Global bModelInfo_rol
 global errInfo_mass
 global errInfo_mass_
 global isIplImport = false
+global gCombMat
 
 fn pbUpdate = (
 	pbcount += 1
@@ -439,7 +440,8 @@ rollout DFFexPara "Export DFF" (
 			
 			checkbox UVpack "UV Fix"  checked:false tooltip:"FIX UV (optional, longer time of export)" across:2 
 			checkbox MeshFix "Mesh Fix"  checked:false align:#left  tooltip:"Fix polygons (optional, longer time of export)" 
-			checkbox noCOL "SKIP COL" checked:true align:#left   tooltip:"Select COL3/COLL" offset:[0,5]
+			checkbox noCOL "SKIP COL" checked:true align:#left   tooltip:"Select COL3/COLL" across:2
+			checkbox CombMat "Comb Mat" checked:false  tooltip:"Combining identical materials"  across:2
 			button exp "EXPORT TO DFF" width:120 height:40 tooltip:"Only selected objects will export" align:#center
 			label lmasexp "Mass export is supported !"
 		)
@@ -923,6 +925,7 @@ rollout DFFexPara "Export DFF" (
 							gVcDefolt = VCdef.value
 							gNvcDefolt = NVCdef.value
 							gValpha = vAlpha.checked
+							gCombMat = CombMat.checked
 							format "\n=====================================\n"
 							format ":       Mass DFF Export LOG        :\n=====================================\n\n"	
 							if exp_lockDFF == true then format "   [!] noBack lock dff is enabled!\n"
@@ -1040,6 +1043,7 @@ fn checkObjL objArr = (
 									gVcDefolt = VCdef.value
 									gNvcDefolt = NVCdef.value
 									gValpha = vAlpha.checked
+									gCombMat = CombMat.checked
 									
 									if eVC.checked == true then		ver = 0X0C02FFFF			--VC Version
 									if eGTA3.checked == true then	ver = 0x0800FFFF			--Standard GTA3 Version
@@ -1176,6 +1180,7 @@ fn checkObjL objArr = (
 										gVcDefolt = VCdef.value
 										gNvcDefolt = NVCdef.value
 										gValpha = vAlpha.checked
+										gCombMat = CombMat.checked
 										geo_count = 0
 										light_count = 0
 										help_count = 0
