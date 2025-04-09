@@ -177,7 +177,7 @@ local no_clump = #()
 	)
 	group "" (
 		radiobuttons textype "Image Type:" labels:#("tga", "bmp","png") columns:3
-		radiobuttons mattype "MATERIAL AS:" align:#left labels:#("GTAmaterial", "Standart") columns:1 offset:[15,5]
+		radiobuttons mattype "MATERIAL AS:" align:#left labels:#("GTAmaterial", "Standart") columns:1 offset:[15,5] default: 2
 		--spinner ISc "Import Scale: " fieldwidth:42 range:[0,100,SPscale] align:#right
 		button imp "Import DFF" width:120 height:30 align:#center
 		label lmasimp "Mass import is supported !"
@@ -441,7 +441,7 @@ rollout DFFexPara "Export DFF" (
 			checkbox UVpack "UV Fix"  checked:false tooltip:"FIX UV (optional, longer time of export)" across:2 
 			checkbox MeshFix "Mesh Fix"  checked:false align:#left  tooltip:"Fix polygons (optional, longer time of export)" 
 			checkbox noCOL "SKIP COL" checked:true align:#left   tooltip:"Select COL3/COLL" across:2
-			checkbox CombMat "Comb Mat" checked:false  tooltip:"Combining identical materials"  across:2
+			checkbox CombMat "Comb Mat" checked:true  tooltip:"Combining identical materials"  across:2
 			button exp "EXPORT TO DFF" width:120 height:40 tooltip:"Only selected objects will export" align:#center
 			label lmasexp "Mass export is supported !"
 		)
