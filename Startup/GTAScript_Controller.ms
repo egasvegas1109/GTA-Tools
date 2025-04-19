@@ -739,7 +739,7 @@ utility Kams_Scripts "Kam's GTA Scripts" (
 
 	-----------------------------------------
 	button script08 "About"  align:#left across:2 height:16 tooltip:"Authors"
-	label SC_t1 "v0.3.7   " align:#right
+	label SC_t1 "v0.3.9   " align:#right
 	on script08 pressed do (
 		try (DestroyDialog KAM_About) catch()
 		rollout KAM_About "Authors (c)"    (
@@ -753,6 +753,11 @@ utility Kams_Scripts "Kam's GTA Scripts" (
 			label about_5 "(Goldfish-1994@yandex.ru)"
 			HyperLink l_sup "Support" align:#center   height:18 address:"https://vk.com/topic-99725313_37821803" color:(color 10 147 225) hovercolor:(color 94 198 255) visitedcolor:(color 10 147 225) 
 			HyperLink l_vk "VK"  align:#center  height:18 address:"https://vk.com/vk.goldfish" color:(color 10 147 225) hovercolor:(color 94 198 255) visitedcolor:(color 10 147 225) 
+			
+			label about_6 " -- Upd > v0.3.7 --" offset: [0.0,7.0,0.0]
+			HyperLink l_tg_ev "EgasVegas"  align:#center  height:18 address:"https://t.me/egasvegas" color:(color 10 147 225) hovercolor:(color 94 198 255) visitedcolor:(color 10 147 225) 
+			
+		
 		)
 		createDialog KAM_About
 	)
