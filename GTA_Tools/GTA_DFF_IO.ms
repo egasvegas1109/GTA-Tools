@@ -136,8 +136,8 @@ rollout aboutRoll "About" (
 	)
 	
 	label l1 "- GTA DFF IO -" align:#center offset:[-12,8]
-	label l21_ " v0.3.7" align:#left
-	label l1_ " last upd: 31.05.20" align:#left
+	label l21_ " v0.3.9" align:#left
+	label l1_ " last upd: 19.04.25" align:#left
 	label l3 "The script can work with" align:#left offset:[0,8]
 	label s1 "  - Bones/Skin" align:#left
 	label s2 "  - Collision" align:#left
@@ -151,6 +151,7 @@ rollout aboutRoll "About" (
 	label s5 "  - ZM Lock DFF" align:#left
 	label s6 "  - New noBack Lock DFF (by GF)" align:#left
 	label s62 "  - UV / Mesh Fix (optional)" align:#left
+	label s63 "  - Combining materials (optional)" align:#left
 	
 	label s7 "  Import / Export:" align:#left offset:[0,8]
 	label s8 "    - Prelit Day / Night" align:#left
@@ -176,7 +177,7 @@ local no_clump = #()
         button useclump "Import" width:70 offset:[-3,0] enabled:false
 	)
 	group "" (
-		radiobuttons textype "Image Type:" labels:#("tga", "bmp","png") columns:3
+		radiobuttons textype "Image Type:" labels:#("tga", "bmp","png") columns:3 default: 3
 		radiobuttons mattype "MATERIAL AS:" align:#left labels:#("GTAmaterial", "Standart") columns:1 offset:[15,5] default: 2
 		--spinner ISc "Import Scale: " fieldwidth:42 range:[0,100,SPscale] align:#right
 		button imp "Import DFF" width:120 height:30 align:#center
@@ -603,7 +604,7 @@ rollout DFFexPara "Export DFF" (
 				)
 			) catch (format "error autoSet(open)\n")
 			exp_lockDFF = false
-			format " ------ DFF IO -------\n last upd: 31.05.20\n         --- \n GTA Tools ver 0.3.7 \n modified by Goldfish\n\n"
+			format " ------ DFF IO -------\n last upd: 19.04.25\n         --- \n GTA Tools ver 0.3.9"
 		) 
 		
 		on bModelInfo pressed do (
