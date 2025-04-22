@@ -786,9 +786,20 @@ if (DebugMode == true)AND(texture_count == 0) then mtlflag[1] = true
 		--mtl.specular = color 255 255 255
 		mtl.opacity = (colA/255.0 * 100) as integer
 	)
-	for i = 1 to texture_count do (
-		rTexture f mtl texEx showdetail
-	)
+
+    for i = 1 to texture_count do (
+        rTexture f mtl texEx showdetail
+
+        if mtl.diffuseMap != undefined then (
+            local texPath = mtl.diffuseMap.filename
+            if texPath != undefined and texPath != "" then (
+                local texName = getFilenameFile texPath
+                if texName != "" then (
+                    mtl.name = texName
+                )
+            )
+        )
+    )
 
 	if (readLong f) != 3 then ( format "Error in Material Extension[Pos: %]\n" (ftell f); exit )
 	MExt = readLong f #unsigned
