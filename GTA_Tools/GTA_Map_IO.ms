@@ -128,7 +128,7 @@ rollout IORoll "IO Control" (
 		radiobuttons textype ""  labels:#("png", "tga", "cust") columns:3 align:#center offset:[17,0]
 		edittext textcust "" width:50 align:#right text:"dds" offset:[0,-3] height:20
 		label lblipl23 "MATERIAL AS:" align:#left  across:2
-		radiobuttons mattype "" labels:#("GTAmaterial  ", "Standart") columns:2 align:#center offset:[-25,0]
+		radiobuttons mattype "" labels:#("GTAmaterial  ", "Standart") columns:2 align:#center offset:[-25,0] default: 2
 		button impipl "IMPORT IPL" width:260 height:30 offset:[0,5]
 		label lblipl2 "Supported:" align:#left  
 		label lblipl3 "   MASS IPL import,  BINARY IPL import" align:#left  
