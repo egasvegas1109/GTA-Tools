@@ -1,5 +1,10 @@
 # This is a continuation of KAM's GTA Scripts, which were finalized by GoldFish.
 ![preview](https://github.com/user-attachments/assets/eb231e9e-6c91-461f-a9fa-caccdffc6010)
+
+### (22.04.2025)
+
+The names of the materials on the model when imported now have names like diffusemap, and not always strictly Standardmaterial.
+
 ### (10.04.2025)
 
 Now, by default, models with "Standard" type material and DiffuseMaps are imported == .png
