@@ -46,6 +46,9 @@ fn SetINI key value_= (
 			if value_ == true then (setINISetting (scriptsPath + "GTA_Tools\settings.ini") "UI_AutoSet" "Exp_chAlpha" "1" )
 			else if value_ == false then (setINISetting (scriptsPath + "GTA_Tools\settings.ini") "UI_AutoSet" "Exp_chAlpha" "0" )
 		)
+        if key == "Exp_Path" then (
+            setINISetting (scriptsPath + "GTA_Tools\settings.ini") "UI_AutoSet" "Exp_Path" (value_ as string)
+        )
 		/*
 		if  key == "Exp_chMMC" then (
 			if value_ == true then (setINISetting (scriptsPath + "GTA_Tools\settings.ini") "UI_AutoSet" "Exp_chMMC" "1" )
@@ -444,6 +447,9 @@ rollout DFFexPara "Export DFF" (
 			checkbox noCOL "SKIP COL" checked:true align:#left   tooltip:"Select COL3/COLL" across:2
 			checkbox CombMat "Comb Mat" checked:true  tooltip:"Combining identical materials"  across:2
 			button exp "EXPORT TO DFF" width:120 height:40 tooltip:"Only selected objects will export" align:#center
+			label lblPath "Export Path:" align:#left
+			edittext edtPath "" text:""
+			button btnBrowse "Browse..." align:#center
 			label lmasexp "Mass export is supported !"
 		)
 		progressbar pb color:blue width:178 height:6 offset:[-8,0]
@@ -459,6 +465,12 @@ rollout DFFexPara "Export DFF" (
 			button bModelInfo "Model chanell Info >"  tooltip:"Channel information of the selected model"
 		)
 		
+		on btnBrowse pressed do (
+		local selectedPath = getSavePath caption:"Select Export Directory:" initialDir:edtPath.text
+		if selectedPath != undefined then
+			edtPath.text = selectedPath
+			SetINI "Exp_Path" edtPath.text
+		)
 		
 		on noCOL changed state do (
 			if state == true then SetINI "Exp_SkipCol" true
@@ -600,6 +612,10 @@ rollout DFFexPara "Export DFF" (
 					if (res as integer) != undefined then (
 						if (res as integer) == 0 then CPV.checked = false
 						else if (res as integer) == 1 then CPV.checked = true
+					)
+					res = (getINISetting (scriptsPath + "GTA_Tools\settings.ini") "UI_AutoSet" "Exp_Path")
+					if res != undefined and res != "" then (
+						edtPath.text = res
 					)
 				)
 			) catch (format "error autoSet(open)\n")
@@ -989,6 +1005,24 @@ fn checkObjL objArr = (
 	for obj in objArr where (superclassof obj == GeometryClass ) do objCnt += 1
 	if objCnt > 1 then return true else return false
 )
+
+fn findFileInDirectory searchDir fileName = (
+    -- Получаем все прямые подпапки в родительской папке
+    local subDirs = getDirectories (searchDir + "\\*")
+    
+    -- Ищем файл в каждой подпапке
+    for dir in subDirs do (
+        local files = getFiles (dir + "\\*.*")
+        for file in files do (
+            if (getFilenameFile file) == (getFilenameFile fileName) then (
+                return getFilenamePath file
+            )
+        )
+    )
+    
+    return undefined
+)
+
 	on exp pressed do (
 		pb.value = 0
 		pbcount = 0
@@ -1167,7 +1201,16 @@ fn checkObjL objArr = (
 											)--end if fo
 										)--end if Sname
 									) else (
-										fname = getsavefilename filename: $selection[1].name caption:"Export DFF File" types:"dff File (*.dff)|*.dff|"
+										local targetDir = edtPath.text
+										local fileName = $selection[1].name + ".dff"
+										local foundPath = findFileInDirectory targetDir fileName
+										
+										if foundPath != undefined then (
+											fname = foundPath + fileName
+										) else (
+											fname = getsavefilename filename: $selection[1].name caption:"Export DFF File" types:"dff File (*.dff)|*.dff|"
+										)
+										
 										if fname != undefined then (
 											f = fopen fname "wb"
 										)
