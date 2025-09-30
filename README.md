@@ -1,6 +1,10 @@
 # This is a continuation of KAM's GTA Scripts, which were finalized by GoldFish.
 ![preview](https://github.com/user-attachments/assets/eb231e9e-6c91-461f-a9fa-caccdffc6010)
 
+### (26.09.2025)
+
+Added automatic replacement of .dff in the subdirectory at the specified path. Only works for single exports.
+
 ### (22.04.2025)
 
 The names of the materials on the model when imported now have names like diffusemap, and not always strictly Standardmaterial.
