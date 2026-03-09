@@ -13,6 +13,8 @@ global isIplImport = false
 global cntLDffNow
 global cntLDffMax
 
+fn pbUpdate = ()
+
 struct _2dfinfo (
 	v2d_L_posX = #(),
 	v2d_L_posY = #(),
