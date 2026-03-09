@@ -1,5 +1,5 @@
-if DFFinInfo == undefined then fileIn (scriptspath+"\\GTA_Tools\\CharDFFimp.mse") quiet:true
-else if DFFinInfo() < 051016 then fileIn (scriptspath+"\\GTA_Tools\\CharDFFimp.mse") quiet:true
+if DFFinInfo == undefined then fileIn (scriptspath+"\\GTA_Tools\\DFFimp.ms") quiet:true
+else if DFFinInfo() < 051016 then fileIn (scriptspath+"\\GTA_Tools\\DFFimp.ms") quiet:true
 if DFFinInfo() < 051016 then messagebox "You didn't have the right import function to run this script!\nTry Install it again!" title:"Import Function Error"
 
 if IFPioInfo == undefined then fileIn (scriptspath+"\\GTA_Tools\\gtaIFPio_Fn.mse") quiet:true 
