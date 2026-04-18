@@ -1163,6 +1163,9 @@ fn ReadIPL iplname dffpath VerIdx textype mattype = (
 
 
 fn WriteInst f AllObjects verTxt = (
+	local prec = preferences.spinnerPrecision
+	local precFormat = "." + (prec as string) + "f"
+	
 	AllRoots = for obj in Allobjects where (obj.parent == undefined) AND \
 		(Classof obj != GTAcull)AND(Classof obj != GTAgrge)AND \
 		(Classof obj != GTAenex)AND(Classof obj != GTAexit)AND \
@@ -1184,7 +1187,7 @@ fn WriteInst f AllObjects verTxt = (
 			if interiorID == undefined then interiorID = 0
 			format "%, " interiorID								to:f
 		)
-		format "%, %, %, " obj.pos.x obj.pos.y obj.pos.z		to:f
+		format "%, %, %, " (formattedPrint obj.pos.x format:precFormat) (formattedPrint obj.pos.y format:precFormat) (formattedPrint obj.pos.z format:precFormat) to:f
 		if verTxt != 3 then format "%, %, %, " obj.scale.x obj.scale.y obj.scale.z	to:f
 		format "%, %, %, %" Crot.x Crot.y Crot.z Crot.w			to:f
 		if verTxt == 3 then (
