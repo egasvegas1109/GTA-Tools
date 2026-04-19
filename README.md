@@ -1,6 +1,15 @@
 # This is a continuation of KAM's GTA Scripts, which were finalized by GoldFish.
 ![preview](https://github.com/user-attachments/assets/eb231e9e-6c91-461f-a9fa-caccdffc6010)
 
+### (18.04.2026)
+
+The precision for exporting .IPL to Map IO is now taken from the "Precision" setting in 3Ds Max.
+
+### (09.03.2026)
+
+Fixed an [issue](https://github.com/egasvegas1109/GTA-Tools/issues/1) with importing .dff in IFP IO
+
+
 ### (26.09.2025)
 
 Added automatic replacement of .dff in the subdirectory at the specified path. Only works for single exports.
