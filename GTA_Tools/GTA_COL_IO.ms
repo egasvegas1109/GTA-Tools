@@ -2001,31 +2001,61 @@ rollout COLin "IO Controls" (
 		)--end if newname
 	)--end on Ecol
 
-	on Ecolfast pressed do (
-		if ($selection.count > 0) then 
-		(
-			colmesh = $selection[1]
-			Sname = getSaveFileName filename: $selection[1].name caption:"Save Collision File" types:"COL File (*.col)|*.col|"
+on Ecolfast pressed do (
+    if ($selection.count > 0) then 
+    (
+        local originalSelection = selection as array
+        local originalObj = originalSelection[1]
 
-			if Sname != undefined then 
-			(
-				try 
-				(                   --undefined * undefined
-					f = fopen Sname "wb"
-					if tycol3.checked == true then expCOL3   f   $selection[1].name   $selection   colmesh   shwmesh   (1/INScale.value)
-					else if tycol2.checked == true then expCOL2   f   $selection[1].name   $selection   colmesh   (1/INScale.value)
-					else expCOLL   f   $selection[1].name   $selection   colmesh   (1/INScale.value)
-					fclose f
-					gc()
-				) catch (
-					--Sname = (substring Sname 1 (Sname.count-4)) + ".txt"
-					if tycol3.checked == true then   dumpCOL3   Sname   $selection[1].name  $selection   colmesh   shwmesh   (1/INScale.value) COLaboutRoll.gtamaxON.checked  
-					else if tycol2.checked == true then dumpCOL2   Sname   $selection[1].name   $selection   colmesh   (1/INScale.value) COLaboutRoll.gtamaxON.checked 
-					else dumpCOLL   Sname   $selection[1].name   $selection   colmesh   (1/INScale.value) COLaboutRoll.gtamaxON.checked 
-				)
-			)--end if Sname
-		)--end if newname
-	)--end on Ecol
+        Sname = getSaveFileName filename: originalObj.name caption:"Save Collision File" types:"COL File (*.col)|*.col|"
+
+        if Sname != undefined then 
+        (
+            -- копия
+            local tempObj = copy originalObj
+            
+            -- сброс трансформаций
+            tempObj.position = [0,0,0]
+            tempObj.rotation = (quat 0 0 0 1)
+            tempObj.scale = [1,1,1]
+            
+            -- делаем копию единственным выбранным объектом
+            select tempObj
+            
+            colmesh = tempObj
+            
+            try 
+            (
+                f = fopen Sname "wb"
+                
+                if tycol3.checked == true then 
+                    expCOL3 f originalObj.name selection colmesh shwmesh (1/INScale.value)
+                else if tycol2.checked == true then 
+                    expCOL2 f originalObj.name selection colmesh (1/INScale.value)
+                else 
+                    expCOLL f originalObj.name selection colmesh (1/INScale.value)
+                
+                fclose f
+                gc()
+            ) 
+            catch 
+            (
+                if tycol3.checked == true then   
+                    dumpCOL3 Sname originalObj.name selection colmesh shwmesh (1/INScale.value) COLaboutRoll.gtamaxON.checked  
+                else if tycol2.checked == true then 
+                    dumpCOL2 Sname originalObj.name selection colmesh (1/INScale.value) COLaboutRoll.gtamaxON.checked 
+                else 
+                    dumpCOLL Sname originalObj.name selection colmesh (1/INScale.value) COLaboutRoll.gtamaxON.checked 
+            )
+            
+            -- удаляем копию
+            delete tempObj
+            
+            -- возвращаем выделение как было
+            select originalSelection
+        )
+    )
+)
 --
 	on impCol pressed do (
 		fname = getOpenFileName caption:"Open SA Vehicle DFF File" types:"COL File (*.col)|*.col|DFF File (*.dff)|*.dff|"
