@@ -792,8 +792,9 @@ if (DebugMode == true)AND(texture_count == 0) then mtlflag[1] = true
     for i = 1 to texture_count do (
         rTexture f mtl texEx showdetail
 
-        if mtl.diffuseMap != undefined then (
-            local texPath = mtl.diffuseMap.filename
+        local diffMap = if (classof mtl == GTA_Mtl) then mtl.colormap else mtl.diffuseMap
+        if diffMap != undefined then (
+            local texPath = diffMap.filename
             if texPath != undefined and texPath != "" then (
                 local texName = getFilenameFile texPath
                 if texName != "" then (
