@@ -1203,7 +1203,7 @@ fn findFileInDirectory searchDir fileName = (
 									) else (
 										local targetDir = edtPath.text
 										local fileName = $selection[1].name + ".dff"
-										local foundPath = findFileInDirectory targetDir fileName
+										local foundPath = if targetDir != "" then (findFileInDirectory targetDir fileName) else undefined
 										
 										if foundPath != undefined then (
 											fname = foundPath + fileName
