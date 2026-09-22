@@ -178,6 +178,9 @@ rollout IORoll "IO Control" (
 	)
 	
 	on impipl pressed do (
+		progressEnd()
+		progressEnd()
+		progressEnd()
 		if textcust.text != "" then (
 			if dptxt.text == "" then (
 				messagebox "Select the DFF Path!\n" 
@@ -231,10 +234,12 @@ rollout IORoll "IO Control" (
 						)
 					)
 					if bincheck != undefined then (
+						progressEnd()
 						popPrompt()
 						pushPrompt ("MAPIO: Map reading...")
 						format "\n -> MAPIO: Map reading...\n"
-						progressUpdate 1
+						-- progressStart "MAPIO: Map reading..."
+						-- progressUpdate 1
 						disableSceneRedraw()
 						enableUndo false
 						
@@ -246,20 +251,25 @@ rollout IORoll "IO Control" (
 						sChImport.jump = ch_jump.checked
 						sChImport.cull = ch_cull.checked
 						
-						for i = 1 to iplname.count do (
-							if IORoll.G3ctr.checked == true then verNo = 1
-							if IORoll.VCctr.checked == true then verNo = 2	
-							if IORoll.SActr.checked == true then verNo = 3	
-							isIplImport = true
-							cntLDffNow = 0
-							cntLDffMax = 0
+						try (
+							for i = 1 to iplname.count do (
+								if IORoll.G3ctr.checked == true then verNo = 1
+								if IORoll.VCctr.checked == true then verNo = 2	
+								if IORoll.SActr.checked == true then verNo = 3	
+								isIplImport = true
+								cntLDffNow = 0
+								cntLDffMax = 0
 
-							format "\nRead % :\n--------------------------------------------\n" iplname[i]
-							progressUpdate 1
-							fakeImport = chFake.checked 
-							ReadIPL iplname[i] dffpath verNo textype.state mattype.state
-							isIplImport = false
-							format "\nReading done! %\n\n" iplname[i]
+								format "\nRead % :\n--------------------------------------------\n" iplname[i]
+								progressUpdate 1
+								fakeImport = chFake.checked 
+								ReadIPL iplname[i] dffpath verNo textype.state mattype.state
+								isIplImport = false
+								format "\nReading done! %\n\n" iplname[i]
+							)
+						) catch (
+							format ">>> IMPORT ERROR: %\n" (getCurrentException())
+							progressEnd()
 						)
 						-- Summary info
 						format "\n=============================================\n\n"
@@ -286,7 +296,6 @@ rollout IORoll "IO Control" (
 						---------------
 						max tool zoomextents
 						gc()
-						progressEnd()
 						resumeediting()
 						enableSceneRedraw()
 						redrawViews()

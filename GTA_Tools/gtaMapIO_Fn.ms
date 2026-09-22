@@ -21,7 +21,7 @@ fn pbProgressUpdate = (
 
 fn pbProgressRename pbname = (
 	progressStart pbname
-	progressUpdate ((pbideCount / pbideMax) * 100)
+	progressUpdate 0
 	setProgressCancel false
 )
 
@@ -574,7 +574,6 @@ fn readjump f = (
 )
 
 fn binaryIplRead iplname dffpath VerIdx textype mattype = (
-	pbProgressRename "IMPORT MAP FROM BIN IPL..."
 	format "\n -> IMPORT MAP FROM BIN IPL...\n\n"
 	ff = fopen iplname  "rb"
 	ReadLong ff
@@ -586,7 +585,6 @@ fn binaryIplRead iplname dffpath VerIdx textype mattype = (
 	ReadLong ff
 	fseek ff INSToffset #seek_set
 	for i=1 to INSTnum do (
-		pbProgressUpdate()
 		posx = ReadFloat ff
 		posy = ReadFloat ff
 		posz = ReadFloat ff
@@ -709,16 +707,20 @@ fn getIdeSize fname idePathArr = (
 fn fillId fname = (
 	format "\n -> Restore BIN IPL func v 0.2b by Goldfish\n"
 	if fname != undefined then (
-        ideData.sID = #()
-        ideData.sNAME = #()
+		ideData.sID = #()
+		ideData.sNAME = #()
 		format " read gta.dat...\n"
 		f = openFile fname
+		if f == undefined then (
+			format ">>> ERROR: cannot open gta.dat\n"
+			return()
+		)
 		idePath = #()
 		while not eof f do (
 			sline = readline f
 			if sline != undefined then (
 				fs = filterString sline " "
-				if fs[1] == "IDE" then append idePath fs[2] 
+				if fs.count > 1 and fs[1] == "IDE" then append idePath fs[2] 
 			)
 		)
 		close f
@@ -729,56 +731,62 @@ fn fillId fname = (
 		datafix = findstring fname "data"
 		if datafix != undefined then (
 			fname_ = substring fname 1 (datafix-1)
-			fname_ + "\\"
 			fname = fname_
 		)
 
 		format " SCAN IDs..\n"
 		for ipath in idePath do (
-			pbProgressUpdate()
 			try(
 				fpath = (fname + ipath)
+				format "  -> %\n" fpath
 				f = openFile fpath
-				fpos = getoffsetInIpl fpath
-				seek f fpos
-				ln = readline f
-				while (findstring ln "objs" != 1) do (
-					if (eof f) then exit
-					ln = readline f
-				)
-				if not (EOF f) then (
-					ln = readline f
-					while (findstring ln "end" != 1) do (
-						if (eof f) then exit
-						if (ln.count > 0 and findstring ln "#" == undefined) then (
-							fs = filterString ln ","
-							append ideData.sID (fs[1] as integer)
-							fstr = filterString fs[2] " "
-							append ideData.sNAME fstr[1]						
-						)
+				if f == undefined then (
+					format "     [skip] cannot open\n"
+				) else (
+					found = false
+					while not eof f do (
 						ln = readline f
+						if ln != undefined and findstring ln "objs" == 1 then (found = true; exit)
 					)
-					if not (EOF f) then (
-						while (findstring ln "tobj" != 1) do (
-							if (eof f) then exit
+					if found then (
+						while not eof f do (
 							ln = readline f
-						)
-						if not (EOF f) then (
-							ln = readline f
-							while (findstring ln "end" != 1) do (
-								if (eof f) then exit
-								if (ln.count > 0 and findstring ln "#" == undefined) then (
+							if ln != undefined then (
+								if findstring ln "end" == 1 then exit
+								if ln.count > 0 and findstring ln "#" == undefined then (
 									fs = filterString ln ","
-									append ideData.sID (fs[1] as integer)
-									fstr = filterString fs[2] " "
-									append ideData.sNAME fstr[1]
+									if fs.count >= 2 then (
+										append ideData.sID (fs[1] as integer)
+										fstr = filterString fs[2] " "
+										if fstr.count >= 1 then append ideData.sNAME fstr[1]
+									)
 								)
-								ln = readline f
 							)
 						)
 					)
+					found = false
+					while not eof f do (
+						ln = readline f
+						if ln != undefined and findstring ln "tobj" == 1 then (found = true; exit)
+					)
+					if found then (
+						while not eof f do (
+							ln = readline f
+							if ln != undefined then (
+								if findstring ln "end" == 1 then exit
+								if ln.count > 0 and findstring ln "#" == undefined then (
+									fs = filterString ln ","
+									if fs.count >= 2 then (
+										append ideData.sID (fs[1] as integer)
+										fstr = filterString fs[2] " "
+										if fstr.count >= 1 then append ideData.sNAME fstr[1]
+									)
+								)
+							)
+						)
+					)
+					close f
 				)
-				close f
 			) catch ( format "#ERROR READ BIN IPL  %\n\n" (fname + ipath) )	
 		)
 		format " END Read\nTotal: % id\n" ideData.sID.count
@@ -802,20 +810,17 @@ fn getCountDatFile fname = (
 )
 		
 fn BinIplPrepare = (
-	--try (
-		if ideData.sID.count == 0 then (
-			messagebox "Found BINARY IPL\n\nplease select gta.dat file in GTA directory!\n(GTA SA\\data\\gta.dat)" title:"Found BINARY IPL!"
-			gtaDatfile = getOpenFileName caption:"Select gta.dat"  types:"GTA data file (gta.dat)|gta.dat|"
-			if gtaDatfile != undefined then (
-				pbideMax += getCountDatFile(gtaDatfile) as float
-				pbProgressRename "SCAN DFF NAMES..."
-				format "\n -> SCAN DFF NAMES...\n"
-				fillId(gtaDatfile)
-			)
+	if ideData.sID.count == 0 then (
+		messagebox "Found BINARY IPL\n\nplease select gta.dat file in GTA directory!\n(GTA SA\\data\\gta.dat)" title:"Found BINARY IPL!"
+		gtaDatfile = getOpenFileName caption:"Select gta.dat"  types:"GTA data file (gta.dat)|gta.dat|"
+		if gtaDatfile != undefined then (
+			pbideMax += getCountDatFile(gtaDatfile) as float
+			format "\n -> SCAN DFF NAMES...\n"
+			fillId(gtaDatfile)
 		)
 		return gtaDatfile
-	--) catch (
-	--)
+	)
+	return undefined
 )
 
 
@@ -1079,7 +1084,6 @@ fn ReadIPL iplname dffpath VerIdx textype mattype = (
 		if (isBinIPL iplname == true ) then (
 			binaryIplRead iplname dffpath VerIdx textype mattype
 		) else (	
-			pbProgressRename "IMPORT MAP FROM IPL..."
 			format "\n -> IMPORT MAP FROM IPL...\n"
 			f = openFile iplname	
 			fpos = getINSToffsetInIpl iplname
